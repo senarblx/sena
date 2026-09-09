@@ -1,1 +1,29 @@
+local PlaceId = game.PlaceId
 
+local Games = {
+    [107778070777162] = {
+        Name = "Steal An Egg",
+        Script = "https://raw.githubusercontent.com/senarblx/game/refs/heads/main/Steal%20An%20Egg"
+    }
+}
+
+local gameData = Games[PlaceId]
+
+if gameData then
+    local success, err = pcall(function()
+        loadstring(game:HttpGet(gameData.Script))()
+    end)
+
+    if not success then
+        warn(string.format("[Sena Loader] Failed to load %s: %s", gameData.Name, tostring(err)))
+    end
+else
+    pcall(function()
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "Sena Roblox",
+            Text = "Unsupported Game! (PlaceId: " .. tostring(PlaceId) .. ")",
+            Duration = 5
+        })
+    end)
+    warn("Sena Loader Unsupported PlaceId: " .. tostring(PlaceId))
+end
